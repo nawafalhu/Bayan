@@ -28,6 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+LOGIN_URL = '/login/'  # Redirect unauthenticated users here
+LOGIN_REDIRECT_URL = '/'  # Redirect users after successful login
+LOGOUT_REDIRECT_URL = '/login/'  # Redirect users to login page after logout
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "main",
 ]
 
 MIDDLEWARE = [
@@ -116,6 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'main/static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
