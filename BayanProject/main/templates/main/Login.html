@@ -1,3 +1,6 @@
+{% extends 'main/base2.html' %}
+{% block nav %}{% endblock %}
+{% block header %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +12,15 @@
     <h1>Login</h1>
     <form method="post">
         {% csrf_token %}
+        {% endblock %}
+        {% block content %}
+
         {{ form.as_p }}
         <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+    {% endblock  %}
 </body>
 </html>
+
 

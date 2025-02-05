@@ -1,0 +1,27 @@
+{% extends 'main/base2.html' %}
+{% block nav %}{% endblock %}
+{% block header %}
+<div style="text-align: center;">
+    <div class="mb-5">
+{% load static %}
+<img style="width: 20%; height: 20%;" src="{% static 'pic/logo.png' %}" alt="Logo">
+</div>
+Registration
+</div>
+
+<form method="post">
+    {% csrf_token %}
+{% endblock %}
+
+
+{% block content %}
+    {{ form.as_table }}
+    <span class="mt-5">Already have an account? <a href="{% url 'login' %}" style="color:rgb(3, 3, 3) !important;">Login here</a></span>
+   {% endblock %}
+   
+   {% block main_btn %}
+   Register
+</form>
+{% endblock  %}
+
+
