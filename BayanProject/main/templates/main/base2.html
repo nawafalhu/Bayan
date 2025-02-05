@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %} <!-- Add this line to load static files -->
+    <title>Sign Language Learning</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'main/styles.css' %}">
+
+</head>
+<body>
+    <nav>
+        <a>Bayan</a>
+       
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+
+   
+</body>
+</html>
+
+
