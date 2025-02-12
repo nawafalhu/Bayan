@@ -1,10 +1,69 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<h1>Chapters</h1>
-<ul>
-    {% for chapter in chapters %}
-        <li>{{ chapter.name }}: {{ chapter.description }}</li>
-    {% endfor %}
-</ul>
+<div class="chapters-container">
+    <!-- Chapter 1 -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 1: Basic Signs</h2>
+        <div class="lessons-list">
+            <a href="{% url 'lesson' chapter=1 lesson=1 %}" class="lesson-link">
+                <div class="lesson-item">A. Alphabet Signs</div>
+            </a>
+            <a href="{% url 'lesson' chapter=1 lesson=2 %}" class="lesson-link">
+                <div class="lesson-item">B. Numbers Signs</div>
+            </a>
+            <a href="{% url 'lesson' chapter=1 lesson=3 %}" class="lesson-link">
+                <div class="lesson-item">C. Greetings Signs</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 2: Daily Communication</h2>
+        <div class="lessons-list">
+            <a href="{% url 'lesson' chapter=2 lesson=1 %}" class="lesson-link">
+                <div class="lesson-item">A. Common Phrases</div>
+            </a>
+            <a href="{% url 'lesson' chapter=2 lesson=2 %}" class="lesson-link">
+                <div class="lesson-item">B. Family Members</div>
+            </a>
+            <a href="{% url 'lesson' chapter=2 lesson=3 %}" class="lesson-link">
+                <div class="lesson-item">C. Weather Terms</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 3: Intermediate Signs</h2>
+        <div class="lessons-list">
+            <a href="{% url 'lesson' chapter=3 lesson=1 %}" class="lesson-link">
+                <div class="lesson-item">A. Emotions & Feelings</div>
+            </a>
+            <a href="{% url 'lesson' chapter=3 lesson=2 %}" class="lesson-link">
+                <div class="lesson-item">B. Time & Calendar</div>
+            </a>
+            <a href="{% url 'lesson' chapter=3 lesson=3 %}" class="lesson-link">
+                <div class="lesson-item">C. Colors & Objects</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 4: Advanced Communication</h2>
+        <div class="lessons-list">
+            <a href="{% url 'lesson' chapter=4 lesson=1 %}" class="lesson-link">
+                <div class="lesson-item">A. Complex Sentences</div>
+            </a>
+            <a href="{% url 'lesson' chapter=4 lesson=2 %}" class="lesson-link">
+                <div class="lesson-item">B. Questions & Answers</div>
+            </a>
+            <a href="{% url 'lesson' chapter=4 lesson=3 %}" class="lesson-link">
+                <div class="lesson-item">C. Story Telling</div>
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -35,3 +35,10 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'main/signup.html', {'form': form})
+
+def lesson_view(request, chapter, lesson):
+    # You can customize this view to show different content based on chapter and lesson numbers
+    return render(request, 'main/lesson.html', {
+        'chapter': chapter,
+        'lesson': lesson
+    })

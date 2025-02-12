@@ -11,5 +11,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='main/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),  # Add a signup view (optional)
+    path('lesson/<int:chapter>/<int:lesson>/', views.lesson_view, name='lesson'),
 ]
 
