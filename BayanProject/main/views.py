@@ -36,9 +36,43 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'main/signup.html', {'form': form})
 
+def get_lesson_title(chapter, lesson):
+    lessons = {
+        1: {
+            1: "Alphabet Signs",
+            2: "Numbers Signs",
+            3: "Greetings Signs"
+        },
+        2: {
+            1: "Common Phrases",
+            2: "Family Members",
+            3: "Weather Terms"
+        },
+        3: {
+            1: "Emotions & Feelings",
+            2: "Time & Calendar",
+            3: "Colors & Objects"
+        },
+        4: {
+            1: "Complex Sentences",
+            2: "Questions & Answers",
+            3: "Story Telling"
+        }
+    }
+    return lessons.get(chapter, {}).get(lesson, "Lesson Not Found")
+
 def lesson_view(request, chapter, lesson):
-    # You can customize this view to show different content based on chapter and lesson numbers
+    lesson_title = get_lesson_title(chapter, lesson)
     return render(request, 'main/lesson.html', {
         'chapter': chapter,
-        'lesson': lesson
+        'lesson': lesson,
+        'lesson_title': lesson_title
     })
+
+@login_required
+def quiz(request):
+    return render(request, 'main/quiz.html')
+
+@login_required
+def quiz_start(request, chapter):
+    return render(request, 'main/quiz_start.html', {'chapter': chapter})

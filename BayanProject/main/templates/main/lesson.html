@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="lesson-page-container">
+    <div class="lesson-header">
+        {% if chapter == 1 %}
+            {% if lesson == 1 %}
+                <h1>Alphabet Signs</h1>
+            {% elif lesson == 2 %}
+                <h1>Numbers Signs</h1>
+            {% elif lesson == 3 %}
+                <h1>Greetings Signs</h1>
+            {% endif %}
+        {% elif chapter == 2 %}
+            {% if lesson == 1 %}
+                <h1>Common Phrases</h1>
+            {% elif lesson == 2 %}
+                <h1>Family Members</h1>
+            {% elif lesson == 3 %}
+                <h1>Weather Terms</h1>
+            {% endif %}
+        {% elif chapter == 3 %}
+            {% if lesson == 1 %}
+                <h1>Emotions & Feelings</h1>
+            {% elif lesson == 2 %}
+                <h1>Time & Calendar</h1>
+            {% elif lesson == 3 %}
+                <h1>Colors & Objects</h1>
+            {% endif %}
+        {% elif chapter == 4 %}
+            {% if lesson == 1 %}
+                <h1>Complex Sentences</h1>
+            {% elif lesson == 2 %}
+                <h1>Questions & Answers</h1>
+            {% elif lesson == 3 %}
+                <h1>Story Telling</h1>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="lesson-content">
+        <!-- Lesson content will go here -->
+        <p>Lesson content for Chapter {{ chapter }}, Lesson {{ lesson }}</p>
+    </div>
+</div>
+{% endblock %} 

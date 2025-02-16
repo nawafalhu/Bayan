@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="chapters-container">
+    <!-- Chapter 1 Quiz -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 1: Basic Signs</h2>
+        <div class="lessons-list">
+            <a href="{% url 'quiz_start' chapter=1 %}" class="lesson-link">
+                <div class="lesson-item quiz-item">Take a Quiz</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chapter 2 Quiz -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 2: Daily Communication</h2>
+        <div class="lessons-list">
+            <a href="{% url 'quiz_start' chapter=2 %}" class="lesson-link">
+                <div class="lesson-item quiz-item">Take a Quiz</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chapter 3 Quiz -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 3: Intermediate Signs</h2>
+        <div class="lessons-list">
+            <a href="{% url 'quiz_start' chapter=3 %}" class="lesson-link">
+                <div class="lesson-item quiz-item">Take a Quiz</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chapter 4 Quiz -->
+    <div class="chapter-card">
+        <h2 class="chapter-title">Chapter 4: Advanced Communication</h2>
+        <div class="lessons-list">
+            <a href="{% url 'quiz_start' chapter=4 %}" class="lesson-link">
+                <div class="lesson-item quiz-item">Take a Quiz</div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

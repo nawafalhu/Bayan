@@ -12,5 +12,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),  # Add a signup view (optional)
     path('lesson/<int:chapter>/<int:lesson>/', views.lesson_view, name='lesson'),
+    path('quiz/', views.quiz, name='quiz'),
+    path('quiz/<int:chapter>/', views.quiz_start, name='quiz_start'),
 ]
 

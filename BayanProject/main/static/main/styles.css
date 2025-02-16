@@ -209,7 +209,7 @@ footer {
 }
 
 .navbar {
-    min-height: 100px;
+    min-height: 70px;
     display: flex;
     align-items: center;
     background-color: #1a237e !important;
@@ -222,7 +222,7 @@ footer {
     transform: translateX(-50%);
     padding: 1rem 0;
     margin: 0;
-    font-size: 3rem !important;
+    font-size: 2.5rem !important;
     line-height: 1.2;
     vertical-align: middle;
     color: black !important;
@@ -322,8 +322,8 @@ footer {
 .chapters-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 3rem;
-    padding: 3rem;
+    gap: 1.5rem;
+    padding: 1rem;
     max-width: 1400px;
     margin: 0 auto;
     background-color: #f5f5f5;
@@ -331,14 +331,14 @@ footer {
 
 .chapter-card {
     background-color: white;
-    border-radius: 15px;
-    padding: 2.5rem;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #e0e0e0;
     position: relative;
     overflow: hidden;
-    margin: 1rem;
+    margin: 0.5rem;
 }
 
 .chapter-card::before {
@@ -347,21 +347,21 @@ footer {
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 4px;
     background: linear-gradient(to right, #1a237e, #534bae);
 }
 
 .chapter-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .chapter-title {
     color: #1a237e;
-    font-size: 1.8rem;
-    margin-bottom: 2.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 3px solid #e0e0e0;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e0e0e0;
     font-weight: bold;
     text-align: center;
 }
@@ -369,7 +369,7 @@ footer {
 .lessons-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.8rem;
 }
 
 .lesson-link {
@@ -379,18 +379,18 @@ footer {
 
 .lesson-item {
     background-color: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 10px;
+    padding: 0.8rem;
+    border-radius: 8px;
     color: #333;
     transition: all 0.3s ease;
     border: 1px solid #eee;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .lesson-item:hover {
     background-color: #1a237e;
     color: white;
-    transform: translateX(10px);
+    transform: translateX(5px);
     border-color: #1a237e;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -421,4 +421,114 @@ footer {
     .chapter-title {
         font-size: 1.5rem;
     }
+}
+
+/* Adjust container margin to reduce overall page height */
+.container.mt-4 {
+    margin-top: 1rem !important;
+}
+
+/* Lesson Page Styling */
+.lesson-page-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1rem auto;
+    max-width: 1200px;
+}
+
+.lesson-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.lesson-header h1 {
+    color: #1a237e;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.lesson-content {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    min-height: 400px;
+}
+
+/* Responsive adjustments for lesson page */
+@media (max-width: 768px) {
+    .lesson-page-container {
+        padding: 1rem;
+    }
+
+    .lesson-header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Quiz specific styles */
+.quiz-item {
+    background-color: #502387;  /* Different color for quiz buttons */
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+}
+
+.quiz-item:hover {
+    background-color: #6a1b9a;
+    transform: translateX(5px);
+}
+
+/* Quiz Start Page Styling */
+.quiz-content {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    min-height: 300px;
+}
+
+.quiz-instructions {
+    margin-bottom: 2rem;
+}
+
+.quiz-instructions h3 {
+    color: #1a237e;
+    margin-bottom: 1rem;
+}
+
+.quiz-instructions ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: #333;
+}
+
+.quiz-instructions li {
+    margin-bottom: 0.5rem;
+    background: none;
+    box-shadow: none;
+    padding: 0.25rem 0;
+}
+
+.quiz-start-button {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.start-quiz-btn {
+    background-color: #502387;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.start-quiz-btn:hover {
+    background-color: #6a1b9a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
