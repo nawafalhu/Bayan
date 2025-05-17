@@ -1,0 +1,822 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.lesson-page-container {
+    padding: 1rem;
+    margin-top: -1rem;  /* Move the container up */
+}
+
+.lesson-header {
+    margin-bottom: 1.5rem;
+    position: relative;
+    background-color: #4343f4;
+    border-radius: 25px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-header h1 {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+.back-arrow {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.back-arrow:hover {
+    transform: translateY(-50%) translateX(-5px);
+    color: white;
+    text-decoration: none;
+}
+
+.lesson-content {
+    padding: 1rem;
+    background-color: transparent;
+    border-radius: 12px;
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.video-container {
+    position: relative;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto 2rem auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.video-container video {
+    width: 100% !important;
+    max-width: 800px !important;
+    height: auto !important;
+    display: block;
+    background-color: #000;
+    border-radius: 8px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.video-title {
+    position: relative;
+    margin-top: 1.5rem;
+    font-size: 3.5rem;
+    font-weight: 500;
+    color: #1a237e;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.8rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    min-width: 120px;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.video-subtitle {
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border-radius: 8px;
+}
+
+.video-title:hover {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .lesson-page-container {
+        padding: 0.5rem;
+        margin-top: -0.5rem;  /* Slightly less negative margin for mobile */
+    }
+    
+    .video-container {
+        margin-bottom: 2rem;
+    }
+    
+    .video-title {
+        font-size: 2.5rem;
+        padding: 0.6rem 1.8rem;
+        min-width: 100px;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-title {
+        font-size: 2rem;
+        padding: 0.5rem 1.5rem;
+    }
+}
+
+.lesson-navigation {
+    margin-top: -10px;
+    padding: 0 20px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.letter-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 10px;
+    position: relative;
+    min-height: 80px;
+    padding: 20px 0;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #4343f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: none;
+    outline: none;
+}
+
+.nav-btn:hover, .nav-btn:focus {
+    background-color: #3535d4;
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+.nav-arrow {
+    margin: 0 8px;
+}
+
+.prev-letter-btn {
+    position: absolute;
+    left: 0;
+}
+
+.next-letter-btn {
+    position: absolute;
+    right: 0;
+}
+
+.practice-btn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4a90e2;
+}
+
+.practice-btn:hover, .practice-btn:focus {
+    background-color: #357abd;
+    transform: translateX(-50%) translateY(-2px);
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+.next-lesson-container {
+    display: inline-flex;
+    margin: 0;
+}
+
+.next-lesson-btn {
+    background-color: #502387;
+    margin-left: auto;
+}
+
+.next-lesson-btn:hover, .next-lesson-btn:focus {
+    background-color: #6d2da1;
+}
+</style>
+
+<div class="lesson-page-container">
+    <div class="lesson-header">
+        <a href="{% url 'lesson_list' chapter=chapter %}" class="back-arrow">←</a>
+        {% if chapter == 1 %}
+            <h1>Alphabet Signs - Lesson {{ lesson }}</h1>
+        {% elif chapter == 2 %}
+            <h1>Numbers Signs - Lesson {{ lesson }}</h1>
+        {% elif chapter == 3 %}
+            <h1>Common Words - Lesson {{ lesson }}</h1>
+        {% endif %}
+    </div>
+    <div class="lesson-content">
+        {% if chapter == 1 %}
+            <div class="video-container">
+                <video controls width="100%" autoplay loop muted>
+                    {% if lesson == 1 %}
+                        <source src="{% static 'videos/videos/ا.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ب.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ت.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ث.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ج.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ح.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/خ.mp4' %}" type="video/mp4">
+                    {% elif lesson == 2 %}
+                        <source src="{% static 'videos/videos/د.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ذ.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ر.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ز.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/س.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ش.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ص.mp4' %}" type="video/mp4">
+                    {% elif lesson == 3 %}
+                        <source src="{% static 'videos/videos/ض.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ط.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ظ.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ع.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/غ.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ف.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ق.mp4' %}" type="video/mp4">
+                    {% elif lesson == 4 %}
+                        <source src="{% static 'videos/videos/ك.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ل.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/م.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ن.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ه.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/و.mp4' %}" type="video/mp4">
+                        <source src="{% static 'videos/videos/ي.mp4' %}" type="video/mp4">
+                    {% endif %}
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">
+                    {% if lesson == 1 %}
+                        ا
+                    {% elif lesson == 2 %}
+                        د
+                    {% elif lesson == 3 %}
+                        ض
+                    {% elif lesson == 4 %}
+                        ك
+                    {% endif %}
+                </div>
+                <div class="video-subtitle" id="videoSubtitle">
+                    Loading...
+                </div>
+            </div>
+        {% elif chapter == 2 %}
+            <div class="video-container">
+                <video controls width="100%" autoplay loop muted>
+                    {% if lesson == 1 %}
+                        <source src="{% static 'chapter2/1.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/2.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/3.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/4.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/5.mp4' %}" type="video/mp4">
+                    {% elif lesson == 2 %}
+                        <source src="{% static 'chapter2/6.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/7.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/8.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/9.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/10.mp4' %}" type="video/mp4">
+                    {% elif lesson == 3 %}
+                        <source src="{% static 'chapter2/11.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/12.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/13.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/14.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter2/15.mp4' %}" type="video/mp4">
+                    {% endif %}
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">
+                    {% if lesson == 1 %}
+                        1
+                    {% elif lesson == 2 %}
+                        6
+                    {% elif lesson == 3 %}
+                        11
+                    {% endif %}
+                </div>
+                <div class="video-subtitle" id="videoSubtitle">
+                    Loading...
+                </div>
+            </div>
+            <!-- Navigation for Chapter 2 -->
+            <div class="lesson-navigation">
+                <div class="letter-navigation">
+                    <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
+                        <span class="nav-arrow">←</span>
+                        Previous Number
+                    </a>
+                    <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                        {% if chapter == 2 %}{% else %}Practice Number{% endif %} Practice Number</a>
+                    <a href="#" class="nav-btn next-letter-btn">
+                        Next Number
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% if lesson == 3 %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=4 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Next Lesson
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Next Lesson
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% elif chapter == 3 %}
+            <div class="video-container">
+                <video controls width="100%" autoplay loop muted>
+                    {% if lesson == 1 %}
+                        <source src="{% static 'chapter3/السلام عليكم.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/وعليكم السلام.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/صباح الخير.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/صباح النور.mp4' %}" type="video/mp4">
+                    {% elif lesson == 2 %}
+                        <source src="{% static 'chapter3/كيف هي أمورك ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/كيف صحتك ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/كيف حالك ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/كيف حال أولادك ؟.mp4' %}" type="video/mp4">
+                    {% elif lesson == 3 %}
+                        <source src="{% static 'chapter3/أتوصي بشيء ؟.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/اعتن بنفسك.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/أراك قريبا.mp4' %}" type="video/mp4">
+                        <source src="{% static 'chapter3/مع السلامة.mp4' %}" type="video/mp4">
+                    {% endif %}
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">
+                    {% if lesson == 1 %}
+                        Greetings
+                    {% elif lesson == 2 %}
+                        How are you?
+                    {% elif lesson == 3 %}
+                        Goodbyes
+                    {% endif %}
+                </div>
+                <div class="video-subtitle" id="videoSubtitle">
+                    Loading...
+                </div>
+            </div>
+            <!-- Navigation for Chapter 3 -->
+            <div class="lesson-navigation">
+                <div class="letter-navigation">
+                    <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
+                        <span class="nav-arrow">←</span>
+                        Previous Word
+                    </a>
+                    <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                        Practice Word
+                    </a>
+                    <a href="#" class="nav-btn next-letter-btn">
+                        Next Word
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% if lesson == 3 %}
+                    <a href="{% url 'quiz_start' chapter=3 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Take Quiz
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
+                        Next Lesson
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Navigation -->
+    {% if chapter == 1 %}
+    <div class="lesson-navigation">
+        <div class="letter-navigation">
+            <a href="#" class="nav-btn prev-letter-btn" style="display: none;">
+                <span class="nav-arrow">←</span>
+                Previous Letter
+            </a>
+            <a href="#" class="nav-btn practice-btn" id="practice-btn">
+                Practice Letter
+            </a>
+            <a href="#" class="nav-btn next-letter-btn">
+                Next Letter
+                <span class="nav-arrow">→</span>
+            </a>
+            {% if lesson == 3 %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=4 %}" class="nav-btn next-lesson-btn" style="display: none;">
+                Next Lesson
+                <span class="nav-arrow">→</span>
+            </a>
+            {% else %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-lesson-btn" style="display: none;">
+                    Next Lesson
+                    <span class="nav-arrow">→</span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% elif chapter != 2 and chapter != 3 %}
+    <div class="lesson-navigation">
+        <div class="letter-navigation">
+        {% if lesson > 1 %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'-1' %}" class="nav-btn prev-btn">
+                <span class="nav-arrow">←</span>
+                Previous Lesson
+            </a>
+        {% endif %}
+        
+        {% if lesson < 3 %}
+            <a href="{% url 'lesson_view' chapter=chapter lesson=lesson|add:'1' %}" class="nav-btn next-btn">
+                Next Lesson
+                <span class="nav-arrow">→</span>
+            </a>
+        {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const videoElement = document.querySelector('.video-container video');
+    const videoTitle = document.querySelector('.video-title');
+    const videoSubtitle = document.getElementById('videoSubtitle');
+    const prevLetterBtn = document.querySelector('.prev-letter-btn');
+    const nextLetterBtn = document.querySelector('.next-letter-btn');
+    const nextLessonBtn = document.querySelector('.next-lesson-btn');
+    const practiceBtn = document.getElementById('practice-btn');
+    let currentVideoIndex = 0;
+    const currentLesson = parseInt("{{ lesson }}");
+    const currentChapter = parseInt("{{ chapter }}");
+    
+    console.log('Initial setup - Current lesson:', currentLesson);
+    console.log('Current chapter:', currentChapter);
+
+    let videos = [];
+    if (currentChapter === 1) {
+        if (currentLesson === 1) {
+            videos = [
+                { src: "{% static 'videos/videos/ا.mp4' %}", title: "ا", position: "First" },
+                { src: "{% static 'videos/videos/ب.mp4' %}", title: "ب", position: "Second" },
+                { src: "{% static 'videos/videos/ت.mp4' %}", title: "ت", position: "Third" },
+                { src: "{% static 'videos/videos/ث.mp4' %}", title: "ث", position: "Fourth" },
+                { src: "{% static 'videos/videos/ج.mp4' %}", title: "ج", position: "Fifth" },
+                { src: "{% static 'videos/videos/ح.mp4' %}", title: "ح", position: "Sixth" },
+                { src: "{% static 'videos/videos/خ.mp4' %}", title: "خ", position: "Seventh" }
+            ];
+        } else if (currentLesson === 2) {
+            videos = [
+                { src: "{% static 'videos/videos/د.mp4' %}", title: "د", position: "Eighth" },
+                { src: "{% static 'videos/videos/ذ.mp4' %}", title: "ذ", position: "Ninth" },
+                { src: "{% static 'videos/videos/ر.mp4' %}", title: "ر", position: "Tenth" },
+                { src: "{% static 'videos/videos/ز.mp4' %}", title: "ز", position: "Eleventh" },
+                { src: "{% static 'videos/videos/س.mp4' %}", title: "س", position: "Twelfth" },
+                { src: "{% static 'videos/videos/ش.mp4' %}", title: "ش", position: "Thirteenth" },
+                { src: "{% static 'videos/videos/ص.mp4' %}", title: "ص", position: "Fourteenth" }
+            ];
+        } else if (currentLesson === 3) {
+            videos = [
+                { src: "{% static 'videos/videos/ض.mp4' %}", title: "ض", position: "Fifteenth" },
+                { src: "{% static 'videos/videos/ط.mp4' %}", title: "ط", position: "Sixteenth" },
+                { src: "{% static 'videos/videos/ظ.mp4' %}", title: "ظ", position: "Seventeenth" },
+                { src: "{% static 'videos/videos/ع.mp4' %}", title: "ع", position: "Eighteenth" },
+                { src: "{% static 'videos/videos/غ.mp4' %}", title: "غ", position: "Nineteenth" },
+                { src: "{% static 'videos/videos/ف.mp4' %}", title: "ف", position: "Twentieth" },
+                { src: "{% static 'videos/videos/ق.mp4' %}", title: "ق", position: "Twenty-first" }
+            ];
+        } else if (currentLesson === 4) {
+            videos = [
+                { src: "{% static 'videos/videos/ك.mp4' %}", title: "ك", position: "Twenty-second" },
+                { src: "{% static 'videos/videos/ل.mp4' %}", title: "ل", position: "Twenty-third" },
+                { src: "{% static 'videos/videos/م.mp4' %}", title: "م", position: "Twenty-fourth" },
+                { src: "{% static 'videos/videos/ن.mp4' %}", title: "ن", position: "Twenty-fifth" },
+                { src: "{% static 'videos/videos/ه.mp4' %}", title: "ه", position: "Twenty-sixth" },
+                { src: "{% static 'videos/videos/و.mp4' %}", title: "و", position: "Twenty-seventh" },
+                { src: "{% static 'videos/videos/ي.mp4' %}", title: "ي", position: "Twenty-eighth" }
+            ];
+        }
+    } else if (currentChapter === 2) {
+        if (currentLesson === 1) {
+            videos = [
+                { src: "{% static 'chapter2/1.mp4' %}", title: "1", position: "First" },
+                { src: "{% static 'chapter2/2.mp4' %}", title: "2", position: "Second" },
+                { src: "{% static 'chapter2/3.mp4' %}", title: "3", position: "Third" },
+                { src: "{% static 'chapter2/4.mp4' %}", title: "4", position: "Fourth" },
+                { src: "{% static 'chapter2/5.mp4' %}", title: "5", position: "Fifth" }
+            ];
+        } else if (currentLesson === 2) {
+            videos = [
+                { src: "{% static 'chapter2/6.mp4' %}", title: "6", position: "Sixth" },
+                { src: "{% static 'chapter2/7.mp4' %}", title: "7", position: "Seventh" },
+                { src: "{% static 'chapter2/8.mp4' %}", title: "8", position: "Eighth" },
+                { src: "{% static 'chapter2/9.mp4' %}", title: "9", position: "Ninth" },
+                { src: "{% static 'chapter2/10.mp4' %}", title: "10", position: "Tenth" }
+            ];
+        } else if (currentLesson === 3) {
+            videos = [
+                { src: "{% static 'chapter2/11.mp4' %}", title: "11", position: "Eleventh" },
+                { src: "{% static 'chapter2/12.mp4' %}", title: "12", position: "Twelfth" },
+                { src: "{% static 'chapter2/13.mp4' %}", title: "13", position: "Thirteenth" },
+                { src: "{% static 'chapter2/14.mp4' %}", title: "14", position: "Fourteenth" },
+                { src: "{% static 'chapter2/15.mp4' %}", title: "15", position: "Fifteenth" }
+            ];
+        }
+    } else if (currentChapter === 3) {
+        if (currentLesson === 1) {
+            videos = [
+                { src: "{% static 'chapter3/السلام عليكم.mp4' %}", title: "السلام عليكم", position: "First" },
+                { src: "{% static 'chapter3/وعليكم السلام.mp4' %}", title: "وعليكم السلام", position: "Second" },
+                { src: "{% static 'chapter3/صباح الخير.mp4' %}", title: "صباح الخير", position: "Third" },
+                { src: "{% static 'chapter3/صباح النور.mp4' %}", title: "صباح النور", position: "Fourth" }
+            ];
+        } else if (currentLesson === 2) {
+            videos = [
+                { src: "{% static 'chapter3/كيف هي أمورك ؟.mp4' %}", title: "كيف هي أمورك ؟", position: "Fifth" },
+                { src: "{% static 'chapter3/كيف صحتك ؟.mp4' %}", title: "كيف صحتك ؟", position: "Sixth" },
+                { src: "{% static 'chapter3/كيف حالك ؟.mp4' %}", title: "كيف حالك ؟", position: "Seventh" },
+                { src: "{% static 'chapter3/كيف حال أولادك ؟.mp4' %}", title: "كيف حال أولادك ؟", position: "Eighth" }
+            ];
+        } else if (currentLesson === 3) {
+            videos = [
+                { src: "{% static 'chapter3/أتوصي بشيء ؟.mp4' %}", title: "أتوصي بشيء ؟", position: "Ninth" },
+                { src: "{% static 'chapter3/اعتن بنفسك.mp4' %}", title: "اعتن بنفسك", position: "Tenth" },
+                { src: "{% static 'chapter3/أراك قريبا.mp4' %}", title: "أراك قريبا", position: "Eleventh" },
+                { src: "{% static 'chapter3/مع السلامة.mp4' %}", title: "مع السلامة", position: "Twelfth" }
+            ];
+        }
+    }
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Function to update lesson progress
+    function updateLessonProgress() {
+        console.log('Updating progress for lesson:', currentLesson);
+        console.log('Current chapter:', currentChapter);
+        
+        // Send AJAX request to mark lesson as complete
+        fetch("{% url 'mark_lesson_complete' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: `chapter=${currentChapter}&lesson=${currentLesson}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+            if (data.status === 'success') {
+                console.log('Progress updated successfully');
+                // Redirect to next lesson
+                const nextLesson = data.next_lesson;
+                console.log('Next lesson:', nextLesson);
+                
+                if (nextLesson <= 3) {
+                    const baseUrl = window.location.origin;
+                    const nextLessonUrl = `${baseUrl}/lesson/${currentChapter}/${nextLesson}/`;
+                    console.log('Redirecting to:', nextLessonUrl);
+                    window.location.href = nextLessonUrl;
+                } else {
+                    const baseUrl = window.location.origin;
+                    const lessonListUrl = `${baseUrl}/lesson/${currentChapter}/`;
+                    window.location.href = lessonListUrl;
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error updating progress:', error);
+        });
+    }
+
+    // Function to update video display
+    function updateVideo(video) {
+        if (!video) {
+            console.log('No video provided to updateVideo');
+            return;
+        }
+        
+        console.log('Updating video:', video.title, 'Current video index:', currentVideoIndex);
+        videoElement.src = video.src;
+        videoTitle.textContent = video.title;
+        if (currentChapter === 1) {
+            videoSubtitle.textContent = `${video.position} letter of the Arabic alphabet`;
+        } else if (currentChapter === 2) {
+            videoSubtitle.textContent = `${video.position} number`;
+        } else if (currentChapter === 3) {
+            videoSubtitle.textContent = `${video.position} word`;
+        }
+        videoElement.load();
+        videoElement.play();
+        
+        // Update practice button URL
+        if (currentChapter === 1) {
+            const letterUrl = "{% url 'letter_detail' letter='PLACEHOLDER' %}".replace('PLACEHOLDER', video.title);
+            practiceBtn.href = letterUrl;
+        } else if (currentChapter === 2) {
+            const numberUrl = `/number/${video.title}/`;
+            practiceBtn.href = numberUrl;
+        } else if (currentChapter === 3) {
+            const phraseUrl = `{% url 'sign_practice:phrase_detail' phrase='PHRASE_PLACEHOLDER' %}`.replace('PHRASE_PLACEHOLDER', encodeURIComponent(video.title));
+            practiceBtn.href = phraseUrl;
+        }
+    
+        // Update navigation buttons visibility
+        prevLetterBtn.style.display = currentVideoIndex > 0 ? 'flex' : 'none';
+        nextLetterBtn.style.display = currentVideoIndex < videos.length - 1 ? 'flex' : 'none';
+        
+        // Show next lesson or quiz button when all words are viewed
+        if (currentVideoIndex === videos.length - 1) {
+            if (nextLessonBtn) {
+                // Special case: chapter 1, lesson 3, last letter
+                if (currentChapter === 1 && currentLesson === 3) {
+                    nextLessonBtn.textContent = 'Next Lesson';
+                    nextLessonBtn.href = '/lesson/1/4/';
+                    nextLessonBtn.style.display = 'flex';
+                } else {
+                    // Check if this is the last lesson in the chapter
+                    let isLastLesson = false;
+                    if ((currentChapter === 1 && currentLesson == 4) ||
+                        (currentChapter === 2 && currentLesson == 3) ||
+                        (currentChapter === 3 && currentLesson == 3)) {
+                        isLastLesson = true;
+                    }
+                    if (isLastLesson) {
+                        nextLessonBtn.textContent = 'Take Quiz';
+                        if (currentChapter === 1) {
+                            nextLessonBtn.href = "{% url 'quiz_start' chapter=1 %}";
+                        } else if (currentChapter === 2) {
+                            nextLessonBtn.href = "{% url 'quiz_start' chapter=2 %}";
+                        } else if (currentChapter === 3) {
+                            nextLessonBtn.href = "{% url 'quiz_start' chapter=3 %}";
+                        }
+                    } else {
+                        nextLessonBtn.textContent = 'Next Lesson';
+                        nextLessonBtn.href = `/lesson/${currentChapter}/${parseInt(currentLesson) + 1}/`;
+                    }
+                    nextLessonBtn.style.display = 'flex';
+                }
+            }
+        } else {
+            if (nextLessonBtn) {
+                nextLessonBtn.style.display = 'none';
+            }
+        }
+    }
+
+    // Event listeners for navigation buttons
+    nextLetterBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (currentVideoIndex < videos.length - 1) {
+            currentVideoIndex++;
+            updateVideo(videos[currentVideoIndex]);
+        }
+    });
+
+    prevLetterBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (currentVideoIndex > 0) {
+            currentVideoIndex--;
+            updateVideo(videos[currentVideoIndex]);
+        }
+    });
+    
+    // Initialize first video
+    if (videos.length > 0) {
+        updateVideo(videos[0]);
+    }
+
+    // Add event listener for next lesson button
+    if (nextLessonBtn) {
+        nextLessonBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default navigation
+            console.log('Next lesson button clicked');
+            console.log('Current lesson:', currentLesson);
+            console.log('Current chapter:', currentChapter);
+
+            // Special case: chapter 1, lesson 3, last letter
+            if (currentChapter === 1 && currentLesson == 3 && currentVideoIndex === videos.length - 1) {
+                // Mark lesson 3 as complete, then go to lesson 4
+                fetch("{% url 'mark_lesson_complete' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `chapter=1&lesson=3`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = '/lesson/1/4/';
+                })
+                .catch(error => {
+                    window.location.href = '/lesson/1/4/';
+                });
+                return;
+            }
+
+            // Check if this is the last lesson in the chapter and last video/word/number
+            let isLastLesson = false;
+            if ((currentChapter === 1 && currentLesson == 4) ||
+                (currentChapter === 2 && currentLesson == 3) ||
+                (currentChapter === 3 && currentLesson == 3)) {
+                isLastLesson = true;
+            }
+            if (isLastLesson && currentVideoIndex === videos.length - 1) {
+                // Mark as complete then go to quiz
+                let quizUrl = '';
+                if (currentChapter === 1) {
+                    quizUrl = "{% url 'quiz_start' chapter=1 %}";
+                } else if (currentChapter === 2) {
+                    quizUrl = "{% url 'quiz_start' chapter=2 %}";
+                } else if (currentChapter === 3) {
+                    quizUrl = "{% url 'quiz_start' chapter=3 %}";
+                }
+                fetch("{% url 'mark_lesson_complete' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `chapter=${currentChapter}&lesson=${currentLesson}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = quizUrl;
+                })
+                .catch(error => {
+                    window.location.href = quizUrl;
+                });
+                return;
+            }
+            // First mark the lesson as complete for other cases
+            fetch("{% url 'mark_lesson_complete' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `chapter=${currentChapter}&lesson=${currentLesson}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                // For other cases, continue to next lesson
+                const nextLesson = data.next_lesson;
+                console.log('Next lesson:', nextLesson);
+                if (nextLesson <= 3) {
+                    const baseUrl = window.location.origin;
+                    const nextLessonUrl = `${baseUrl}/lesson/${currentChapter}/${nextLesson}/`;
+                    console.log('Redirecting to:', nextLessonUrl);
+                    window.location.href = nextLessonUrl;
+                } else {
+                    const baseUrl = window.location.origin;
+                    const lessonListUrl = `${baseUrl}/lesson/${currentChapter}/`;
+                    window.location.href = lessonListUrl;
+                }
+            })
+            .catch(error => {
+                console.error('Error updating progress:', error);
+            });
+        });
+    }
+});
+</script>
+{% endblock %} 

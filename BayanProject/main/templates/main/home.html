@@ -1,0 +1,148 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="chapters-container">
+    <!-- Chapter 1 -->
+    <div class="chapter-card">
+        <div class="chapter-header">
+            <span class="chapter-label">CHAPTER 1</span>
+        </div>
+        <h2 class="chapter-title">Alphabet Signs</h2>
+        <div class="chapter-footer">
+            <a href="{% url 'lesson_list' chapter=1 %}" class="continue-btn" id="chapter1Button">
+                START
+                <span class="continue-icon">▶</span>
+            </a>
+        </div>
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text" id="chapter1Progress">{{ chapter1_completed_count }} of 4 lessons completed</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="chapter1ProgressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="chapter-card">
+        <div class="chapter-header">
+            <span class="chapter-label">CHAPTER 2</span>
+        </div>
+        <h2 class="chapter-title">Numbers Signs</h2>
+        <div class="chapter-footer">
+            {% if chapter2_completed_count == 0 %}
+                <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn" id="chapter2Button">
+                    START
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% elif chapter2_completed_count < 3 %}
+                <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn" id="chapter2Button">
+                    CONTINUE
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% else %}
+                <a href="{% url 'lesson_list' chapter=2 %}" class="continue-btn" id="chapter2Button" style="background-color: #4CAF50;">
+                    COMPLETED
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% endif %}
+        </div>
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text" id="chapter2Progress">{{ chapter2_completed_count|default:0 }} of 3 lessons completed</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="chapter2ProgressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="chapter-card">
+        <div class="chapter-header">
+            <span class="chapter-label">CHAPTER 3</span>
+        </div>
+        <h2 class="chapter-title">Common Words</h2>
+        <div class="chapter-footer">
+            {% if chapter3_completed_count == 0 %}
+                <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn" id="chapter3Button">
+                START
+                <span class="continue-icon">▶</span>
+            </a>
+            {% elif chapter3_completed_count < 3 %}
+                <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn" id="chapter3Button">
+                    CONTINUE
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% else %}
+                <a href="{% url 'lesson_list' chapter=3 %}" class="continue-btn" id="chapter3Button" style="background-color: #4CAF50;">
+                    COMPLETED
+                    <span class="continue-icon">▶</span>
+                </a>
+            {% endif %}
+        </div>
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-text" id="chapter3Progress">{{ chapter3_completed_count|default:0 }} of 3 lessons completed</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="chapter3ProgressBar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="practice-grid">
+    {% for number in numbers %}
+    <a href="{% url 'sign_practice' %}?chapter=2&letter={{ number }}" class="sign-link" id="number-{{ number }}">
+        <div class="sign-card {% if number|stringformat:'s' == selected_number %}selected{% endif %}">
+            <span class="sign-symbol">{{ number }}</span>
+            <span class="sign-label">{{ number_words.number }}</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chapter1Button = document.getElementById('chapter1Button');
+    const chapter1Progress = document.getElementById('chapter1Progress');
+    const chapter1ProgressBar = document.getElementById('chapter1ProgressBar');
+    const completedCount = parseInt(chapter1Progress.textContent.split(' ')[0]);
+    const totalLessons = 4;
+
+    // Update progress bar width
+    const progressPercentage = (completedCount / totalLessons) * 100;
+    chapter1ProgressBar.style.width = progressPercentage + '%';
+
+    // Update continue button text based on completion
+    if (completedCount > 0 && completedCount < totalLessons) {
+        chapter1Button.innerHTML = 'CONTINUE <span class="continue-icon">▶</span>';
+    } else if (completedCount === totalLessons) {
+        chapter1Button.innerHTML = 'COMPLETED <span class="continue-icon">▶</span>';
+        chapter1Button.style.backgroundColor = '#4CAF50';
+    }
+
+    // Chapter 2 progress bar
+    const chapter2Progress = document.getElementById('chapter2Progress');
+    const chapter2ProgressBar = document.getElementById('chapter2ProgressBar');
+    if (chapter2Progress && chapter2ProgressBar) {
+        const completed2 = parseInt(chapter2Progress.textContent.split(' ')[0]);
+        const total2 = 3;
+        const percent2 = (completed2 / total2) * 100;
+        chapter2ProgressBar.style.width = percent2 + '%';
+    }
+
+    // Chapter 3 progress bar
+    const chapter3Progress = document.getElementById('chapter3Progress');
+    const chapter3ProgressBar = document.getElementById('chapter3ProgressBar');
+    if (chapter3Progress && chapter3ProgressBar) {
+        const completed3 = parseInt(chapter3Progress.textContent.split(' ')[0]);
+        const total3 = 3;
+        const percent3 = (completed3 / total3) * 100;
+        chapter3ProgressBar.style.width = percent3 + '%';
+    }
+});
+</script>
+{% endblock %}
